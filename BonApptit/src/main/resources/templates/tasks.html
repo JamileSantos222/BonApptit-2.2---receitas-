@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" data-theme="cupcake">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Produtos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.0/dist/full.css" rel="stylesheet" />
+</head>
+<body class="p-6">
+    <h1 class="text-2xl font-bold text-pink-500 mb-6" th:text="${titulo}"></h1>
+
+    <ul class="space-y-2">
+        <li th:each="produto : ${produtos}" class="p-3 bg-pink-100 rounded-lg shadow">
+            <span th:text="${produto}"></span>
+        </li>
+    </ul>
+
+    <div class="mt-6">
+        <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+</body>
+</html>

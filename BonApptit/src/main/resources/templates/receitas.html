@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" data-theme="cupcake">
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${titulo}">Receitas - Bon'Apptit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.0/dist/full.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-orange-50 text-gray-800 font-sans">
+
+<header class="w-full bg-white/80 dark:bg-gray-900/80 p-6 shadow-md sticky top-0 z-10">
+  <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <h1 class="text-3xl font-bold text-green-600">🥗 Bon'Apptit - Receitas</h1>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto p-6">
+  <h2 class="text-4xl font-extrabold text-green-700 mb-6">Explore nossas receitas deliciosas</h2>
+
+  <!-- FILTRO ta aquii -->
+  <form action="/receitas" method="get" class="mb-8">
+    <div class="flex flex-col md:flex-row gap-4 items-stretch">
+      <div class="form-control w-full md:w-1/2">
+        <label class="label">
+          <span class="label-text">Buscar por nome</span>
+        </label>
+        <input type="text" name="nome" placeholder="Ex: bolo, frango..." class="input input-bordered w-full"
+               th:value="${param.nome}" />
+      </div>
+
+      <div class="form-control w-full md:w-1/4">
+        <label class="label">
+          <span class="label-text">Categoria</span>
+        </label>
+        <select name="categoria" class="select select-bordered w-full" th:value="${param.categoria}">
+          <option value="">Todas as categorias</option>
+          <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat}"
+                  th:selected="${param.categoria} == ${cat}"></option>
+        </select>
+      </div>
+
+      <div class="flex gap-3 items-end w-full md:w-auto">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a th:href="@{/receitas}" class="btn btn-ghost">Limpar</a>
+      </div>
+    </div>
+  </form>
+
+ 
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <article th:each="receita : ${receitas}" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition flex flex-col">
+      <img th:src="${receita.imagemUrl}" alt="Imagem da receita" class="rounded-lg mb-4 object-cover h-48 w-full" />
+      
+      <h3 class="text-2xl font-semibold text-green-600 mb-2" th:text="${receita.nome}">Nome da Receita</h3>
+      <p class="text-sm font-medium text-orange-600 mb-2" th:text="'Tempo: ' + ${receita.tempoPreparo}">Tempo: 00 minutos</p>
+      <p class="text-sm text-gray-500 mb-4" th:text="'Categoria: ' + ${receita.categoria}">Categoria: Geral</p>
+
+      <h4 class="font-semibold text-green-700 mb-1">Ingredientes:</h4>
+      <ul class="list-disc list-inside mb-4 text-gray-700" >
+        <li th:each="ingrediente : ${receita.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
+      </ul>
+
+      <h4 class="font-semibold text-green-700 mb-1">Modo de Preparo:</h4>
+      <p class="text-gray-700" th:text="${receita.modoPreparo}">Descrição do preparo...</p>
+    </article>
+  </div>
+</main>
+
+<footer class="bg-green-600 text-white text-center py-4 mt-12">
+  <p>© 2025 Bon'Apptit — Feito com 🧡 e ingredientes frescos para o seu dia a dia.</p>
+</footer>
+
+</body>
+</html>
